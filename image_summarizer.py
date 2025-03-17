@@ -29,7 +29,7 @@ def generate_summary(image_path, max_tokens=150):
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
-                {"role": "system", "content": "You are an AI trained to generate detailed image descriptions."},
+                {"role": "system", "content": "You are an AI trained to generate detailed descriptions of first-person images. These images are generated from a person named Keegan wearing a head-mounted camcorder."},
                 {"role": "user", "content": [
                     {"type": "text", "text": prompt},
                     {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{encoded_image}"}}
@@ -46,7 +46,7 @@ def generate_summary(image_path, max_tokens=150):
 # Function to process all images in a folder and save each summary separately
 def process_images(image_folder):
     """Processes all images in a folder and saves each summary in a text file."""
-    output_folder = os.path.join(os.path.dirname(image_folder), "text_summaries")
+    output_folder = os.path.join(os.path.dirname(image_folder), "raw_summaries")
     os.makedirs(output_folder, exist_ok=True)
 
     image_files = sorted([f for f in os.listdir(image_folder) if f.lower().endswith(('.png', '.jpg', '.jpeg'))])
