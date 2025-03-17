@@ -9,7 +9,7 @@ main_directory = "/Users/keeganh/Documents"
 days_to_process = ["Sunday"]
 
 # Output JSONL file for fine-tuning
-output_jsonl_file = os.path.join(main_directory, "keegangpt_training.jsonl")
+output_jsonl_file = os.path.join(main_directory, f"keegangpt_training_{days_to_process[-1]}.jsonl")
 
 def read_text_file(filepath):
     """Reads text content from a file."""
