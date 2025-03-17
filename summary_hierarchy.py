@@ -38,10 +38,12 @@ def summarize_text(text_list, timestamps, summary_type):
 
     if summary_type == "minute":
         prompt = f"You are summarizing short text logs with timestamps, which are summaries of what a person named Keegan was doing at the given timestamp. Generate a summary for the following minute-long logs:\n\n{entries}"
+    elif summary_type == "ten_minute":
+        prompt = f"You are summarizing a sequence of minute summaries over a 10-minute period. These are summaries of what Keegan was doing. Preserve key trends:\n\n{entries}"
     elif summary_type == "hour":
-        prompt = f"You are summarizing a sequence of minute summaries over an hour. These are summaries of what a person named Keegan was doing at that minute. Preserve key trends over time:\n\n{entries}"
+        prompt = f"You are summarizing a sequence of ten-minute summaries over an hour. These are summaries of what Keegan was doing. Preserve key trends over time:\n\n{entries}"
     elif summary_type == "day":
-        prompt = f"You are summarizing a sequence of hourly summaries over a day. These are summaries of what a person named Keegan was doing in that hour. Identify patterns, trends, and key highlights:\n\n{entries}"
+        prompt = f"You are summarizing a sequence of hourly summaries over a day. These are summaries of what Keegan was doing in that hour. Identify patterns, trends, and key highlights:\n\n{entries}"
     elif summary_type == "week":
         prompt = f"You are summarizing a week's worth of daily summaries of a person named Keegan. Extract key themes and trends while maintaining chronological context:\n\n{entries}"
 
@@ -117,13 +119,21 @@ def generate_minute_summaries(main_directory, days):
         minute_summaries = os.path.join(day_dir, "minute_summaries")
         process_summaries(raw_summaries, minute_summaries, interval_minutes=1, summary_type="minute")
 
+# Generate ten-minute summaries (inside each day's directory)
+def generate_ten_minute_summaries(main_directory, days):
+    for day in days:
+        day_dir = os.path.join(main_directory, day)
+        minute_summaries = os.path.join(day_dir, "minute_summaries")
+        ten_minute_summaries = os.path.join(day_dir, "ten_minute_summaries")
+        process_summaries(minute_summaries, ten_minute_summaries, interval_minutes=10, summary_type="ten_minute")
+
 # Generate hour summaries (inside each day's directory)
 def generate_hour_summaries(main_directory, days):
     for day in days:
         day_dir = os.path.join(main_directory, day)
-        minute_summaries = os.path.join(day_dir, "minute_summaries")
+        ten_minute_summaries = os.path.join(day_dir, "ten_minute_summaries")
         hour_summaries = os.path.join(day_dir, "hour_summaries")
-        process_summaries(minute_summaries, hour_summaries, interval_minutes=60, summary_type="hour")
+        process_summaries(ten_minute_summaries, hour_summaries, interval_minutes=60, summary_type="hour")
 
 # Generate day summaries (saved in main_directory)
 def generate_day_summaries(main_directory, days):
@@ -150,26 +160,6 @@ def generate_day_summaries(main_directory, days):
 
         print(f"Day summary saved: {summary_filename}")
 
-# Generate weekly summary (saved in main_directory)
-def generate_week_summary(main_directory, days):
-    day_summaries_dir = os.path.join(main_directory, "day_summaries")
-    week_summary_dir = os.path.join(main_directory, "week_summary")
-    os.makedirs(week_summary_dir, exist_ok=True)
-
-    timestamps, summaries = read_summaries(day_summaries_dir)
-
-    if not summaries:
-        print("No summaries found in day_summaries.")
-        return
-
-    week_summary_text = summarize_text([text for _, text in summaries], timestamps, summary_type="week")
-
-    summary_filename = os.path.join(week_summary_dir, "weekly_summary.txt")
-    with open(summary_filename, "w") as f:
-        f.write(week_summary_text)
-
-    print(f"Weekly summary saved: {summary_filename}")
-
 # Run the script
 if __name__ == "__main__":
     main_directory = "/Users/keeganh/Documents"
@@ -178,13 +168,13 @@ if __name__ == "__main__":
     print("Generating minute summaries...")
     generate_minute_summaries(main_directory, days_to_summarize)
 
+    print("Generating ten-minute summaries...")
+    generate_ten_minute_summaries(main_directory, days_to_summarize)
+
     print("Generating hour summaries...")
     generate_hour_summaries(main_directory, days_to_summarize)
 
     print("Generating day summaries...")
     generate_day_summaries(main_directory, days_to_summarize)
-
-    print("Generating weekly summary...")
-    generate_week_summary(main_directory, days_to_summarize)
 
     print("Summarization pipeline completed!")
