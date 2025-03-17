@@ -37,13 +37,13 @@ def summarize_text(text_list, timestamps, summary_type):
     entries = "\n".join([f"[{timestamps[i].strftime('%Y-%m-%d %H:%M:%S')}]\n{text}" for i, text in enumerate(text_list)])
 
     if summary_type == "minute":
-        prompt = f"You are summarizing short text logs with timestamps. Generate a summary for the following minute-long logs:\n\n{entries}"
+        prompt = f"You are summarizing short text logs with timestamps, which are summaries of what a person named Keegan was doing at the given timestamp. Generate a summary for the following minute-long logs:\n\n{entries}"
     elif summary_type == "hour":
-        prompt = f"You are summarizing a sequence of minute summaries over an hour. Preserve key trends over time:\n\n{entries}"
+        prompt = f"You are summarizing a sequence of minute summaries over an hour. These are summaries of what a person named Keegan was doing at that minute. Preserve key trends over time:\n\n{entries}"
     elif summary_type == "day":
-        prompt = f"You are summarizing a sequence of hourly summaries over a day. Identify patterns, trends, and key highlights:\n\n{entries}"
+        prompt = f"You are summarizing a sequence of hourly summaries over a day. These are summaries of what a person named Keegan was doing in that hour. Identify patterns, trends, and key highlights:\n\n{entries}"
     elif summary_type == "week":
-        prompt = f"You are summarizing a week's worth of daily summaries. Extract key themes and trends while maintaining chronological context:\n\n{entries}"
+        prompt = f"You are summarizing a week's worth of daily summaries of a person named Keegan. Extract key themes and trends while maintaining chronological context:\n\n{entries}"
 
     try:
         response = client.chat.completions.create(

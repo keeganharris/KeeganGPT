@@ -29,7 +29,7 @@ def generate_summary(image_path, max_tokens=150):
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
-                {"role": "system", "content": "You are an AI trained to generate detailed descriptions of first-person images. These images are generated from a person named Keegan wearing a head-mounted camcorder."},
+                {"role": "system", "content": "You are an AI trained to generate detailed descriptions of first-person images. These images are generated from a person named Keegan wearing a head-mounted camcorder continuously for a week."},
                 {"role": "user", "content": [
                     {"type": "text", "text": prompt},
                     {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{encoded_image}"}}
