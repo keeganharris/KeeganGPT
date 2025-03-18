@@ -12,11 +12,17 @@ api_key = os.getenv("OPENAI_API_KEY")
 client = openai.OpenAI(api_key=api_key)
 
 # Set the last training day
-day = "Sunday"  # Change this to match the latest training day
+day = "Monday"  # Change this to match the latest training day
+
+minute = True  # Set to True to include minute summaries
 
 # Paths with dynamic day names
-TRAINING_FILE_PATH = f"/Users/keeganh/Documents/keegangpt_training_{day}.jsonl"
-LOG_FILE = f"/Users/keeganh/Documents/fine_tuning_log_{day}.txt"
+if minute:
+    TRAINING_FILE_PATH = f"/Users/keeganh/Documents/keegangpt_training_minute_{day}.jsonl"
+    LOG_FILE = f"/Users/keeganh/Documents/fine_tuning_log_minute_{day}.txt"
+else:
+    TRAINING_FILE_PATH = f"/Users/keeganh/Documents/keegangpt_training_{day}.jsonl"
+    LOG_FILE = f"/Users/keeganh/Documents/fine_tuning_log_{day}.txt"
 
 def log_fine_tuning_details(job_id, model_id=None, status="started"):
     """Logs fine-tuning details into a text file."""

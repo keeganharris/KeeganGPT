@@ -62,6 +62,6 @@ def process_videos(directory, interval_seconds=60):
     print(f"All frames extracted and saved inside '{output_folder}'")
 
 if __name__ == "__main__":
-    N = 60  # Extract an image every N seconds
-    video_directory = "/Users/keeganh/Documents/Sunday"
+    N = 30  # Extract an image every N seconds
+    video_directory = "/Users/keeganh/Documents/Monday"
     process_videos(video_directory, interval_seconds=N)

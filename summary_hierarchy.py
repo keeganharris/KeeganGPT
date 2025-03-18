@@ -163,7 +163,7 @@ def generate_day_summaries(main_directory, days):
 # Run the script
 if __name__ == "__main__":
     main_directory = "/Users/keeganh/Documents"
-    days_to_summarize = ["Sunday"]  # Days to process
+    days_to_summarize = ["Monday"]  # Days to process
 
     print("Generating minute summaries...")
     generate_minute_summaries(main_directory, days_to_summarize)
