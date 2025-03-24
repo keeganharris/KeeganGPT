@@ -63,5 +63,7 @@ def process_videos(directory, interval_seconds=60):
 
 if __name__ == "__main__":
     N = 30  # Extract an image every N seconds
-    video_directory = "/Users/keeganh/Documents/Monday"
-    process_videos(video_directory, interval_seconds=N)
+    day_list = ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday 2", "Sunday 2"]
+    for day in day_list:
+        video_directory = f"/Users/keeganh/Documents/{day}"
+        process_videos(video_directory, interval_seconds=N)
